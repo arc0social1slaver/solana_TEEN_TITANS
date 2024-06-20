@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEA TRANSPORTATON</title>
+    <link rel="stylesheet" href="./demo.css">
+</head>
+<body>
+    <header>
+        <h1>OCEANATION</h1>
+        <ul id="nav">
+            <li><a href="">Home</a></li>
+            <li><a href="">Services</a></li>
+            <li><a href="">Contact</a></li>
+        </ul>   
+    </header>
+    <div class="container">
+        <h2>Sea Exportation Application Form</h2>
+        <p><b>Exporter</b></p>
+        <form action="/submit" method="post">
+            <div class="form-group" style="display:flex; justify-content: space-between;">
+                <div>
+                <label for="fullName">Full Name:</label>
+                <input type="text" style="width: 205%" id="fullName" name="fullNameExporter" required>
+                </div>
+                <div>
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" name="phoneExporter" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="emailExporter" required>
+            </div>
+            <p><b>Receiver</b></p>
+            <div class="form-group" style="display:flex; justify-content: space-between;">
+                <div>
+                <label for="fullName">Full Name:</label>
+                <input type="text" style="width: 205%" id="fullName" name="fullNameReceiver" required>
+                </div>
+                <div>
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" name="phoneReceiver" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="emailReceiver" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="addressReceiver" required>
+            </div>
+            <div class="form-group">
+                <label for="shipmentType">Shipment Type:</label>
+                <select id="shipmentType" name="shipmentType" required>
+                    <option disabled value="">Select Shipment Type</option>
+                    <option value="container">Container</option>
+                    <option value="bulk">Bulk</option>
+                    <option value="breakBulk">Break Bulk</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="departurePort">Departure Port:</label>
+                <input type="text" id="departurePort" name="departurePort" required>
+            </div>
+            <div class="form-group">
+                <label for="destinationPort">Destination Port:</label>
+                <input type="text" id="destinationPort" name="destinationPort" required>
+            </div>
+            <div class="form-group">
+                <label for="departureDate">Departure Date:</label>
+                <input type="date" id="departureDate" name="departureDate" required>
+            </div>
+            <div class="form-group">
+                <label for="arrivalDate">Estimated Arrival Date:</label>
+                <input type="date" id="arrivalDate" name="arrivalDate" required>
+            </div>
+            <div class="form-group">
+                <label for="comments">Additional Comments:</label>
+                <textarea id="comments" name="comments" rows="4"></textarea>
+            </div>
+            <button type="submit">Submit Application</button>
+        </form>
+    </div>
+</body>
+</html>
+
