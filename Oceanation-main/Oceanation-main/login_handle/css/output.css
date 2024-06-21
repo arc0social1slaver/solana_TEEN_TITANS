@@ -18,7 +18,7 @@
   /* 2 */
   border-style: solid;
   /* 2 */
-  border-color: #e5e7eb;
+  border-color: #f8f8f9;
   /* 2 */
 }
 
@@ -192,7 +192,6 @@ table {
 3. Remove default padding in all browsers.
 */
 
-button,
 input,
 optgroup,
 select,
@@ -237,10 +236,6 @@ button,
 [type='submit'] {
   -webkit-appearance: button;
   /* 1 */
-  background-color: transparent;
-  /* 2 */
-  background-image: none;
-  /* 2 */
 }
 
 /*
@@ -1506,4 +1501,62 @@ font-style: normal;
   .sm\:w-1\/2{
     width: 50%;
   }
+}
+
+.containers {
+  align-items: center;
+  background-color: rgba(199, 199, 199, 0.75);;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 700px;
+}
+
+h2 {
+  margin-top: 0;
+  text-align: center;
+  color: #081472;
+  font-size: 30px;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #143531;
+  font-weight: bold;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #b0bec5;
+  border-radius: 20px;
+  font-size: 16px;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #4644b6;
+  border-width: 2px;
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #0a0345;
+  color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+button:hover {
+  background-color: #070b50;
 }
