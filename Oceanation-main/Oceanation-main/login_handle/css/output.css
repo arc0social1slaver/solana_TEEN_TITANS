@@ -1504,6 +1504,7 @@ font-style: normal;
 }
 
 .containers {
+  margin: 0 auto;
   align-items: center;
   background-color: rgba(199, 199, 199, 0.75);;
   padding: 30px;
