@@ -1116,7 +1116,7 @@ video {
 font-style: normal;
 }
 .hover-change:hover {
-  color: #eef611; /* Change to gold color on hover */
+  color: #115af6; /* Change to gold color on hover */
   text-decoration: underline; /* Underline the text on hover */
 }
 .font-bold{
