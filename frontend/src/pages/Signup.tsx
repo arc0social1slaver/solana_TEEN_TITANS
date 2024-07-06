@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import SignUpBg from "../layout/SignupBg";
+import SignUpBg from "../layout/SignUpBg";
 import BgWelcome from "../assets/images/bg-welcome (1).jpg";
 
 const SignUp = () => {
@@ -38,7 +38,6 @@ const SignUp = () => {
   return (
     <SignUpBg imgSrc={BgWelcome}>
       <div className="flex flex-col items-center">
-        <h2 className="font-bold text-4xl text-center text-black">Sign up</h2>
         <form id="signUpForm" className="flex flex-col gap-2">
           <label htmlFor="email" className="text-sm mt-6 text-gray-">Email:</label>
           <input
