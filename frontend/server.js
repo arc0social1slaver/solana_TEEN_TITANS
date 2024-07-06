@@ -1,31 +1,65 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import cors from 'cors';
+import fs from 'fs';
+import path from 'path';
 
 const app = express();
 const PORT = 5000;
+const __dirname = path.resolve();
 
-// Để lưu trữ dữ liệu biểu mẫu
-let formDataStore = [];
-
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
+// Middleware to parse JSON bodies
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// Xử lý request POST từ React frontend
+// Helper function to read data from the file
+const readData = (callback) => {
+    fs.readFile(path.join(__dirname, 'data.json'), 'utf8', (err, data) => {
+        if (err && err.code !== 'ENOENT') {
+            return callback(err);
+        }
+        if (!data) {
+            return callback(null, []);
+        }
+        try {
+            const jsonData = JSON.parse(data);
+            callback(null, jsonData);
+        } catch (parseErr) {
+            callback(parseErr);
+        }
+    });
+};
+
+// Helper function to write data to the file
+const writeData = (data, callback) => {
+    fs.writeFile(path.join(__dirname, 'data.json'), JSON.stringify(data, null, 2), 'utf8', (err) => {
+        if (err) {
+            return callback(err);
+        }
+        callback(null);
+    });
+};
+
+// Endpoint to handle form submission
 app.post('/submit', (req, res) => {
     const formData = req.body;
 
-    // Thêm formData vào mảng formDataStore
-    formDataStore.push(formData);
+    // Read existing data
+    readData((readErr, existingData) => {
+        if (readErr) {
+            return res.status(500).json({ error: 'Error reading data file' });
+        }
 
-    // Phản hồi thành công với thông báo
-    res.status(200).send('Form data submitted successfully');
-});
+        // Add new form data
+        existingData.push(formData);
 
-app.get('/formData', (req, res) => {
-    // Trả về dữ liệu biểu mẫu đã lưu trữ
-    res.status(200).json(formDataStore);
+        // Write updated data to file
+        writeData(existingData, (writeErr) => {
+            if (writeErr) {
+                return res.status(500).json({ error: 'Error writing data file' });
+            }
+            res.status(200).json({ message: 'Form data saved successfully' });
+        });
+    });
 });
 
 app.listen(PORT, () => {
