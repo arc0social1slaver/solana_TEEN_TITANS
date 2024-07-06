@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { NavLink } from 'react-router-dom';
 import Logo from '../assets/images/logo.png';
 import Background from '../assets/images/4.jpg';
@@ -18,15 +18,24 @@ const ExpImp = () => {
         comments: '',
     });
 
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: type === 'checkbox' ? checked : value,
-        }));
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        const { name, value, type } = e.target;
+        
+        if (type === 'checkbox') {
+            const isChecked = (e.target as HTMLInputElement).checked; // Type assertion here
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: isChecked,
+            }));
+        } else {
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: value,
+            }));
+        }
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             const response = await fetch('http://localhost:5000/submit', {
@@ -56,9 +65,9 @@ const ExpImp = () => {
                 backgroundRepeat: 'no-repeat',
             }}
         >
-            <nav className="bg-gradient-to-r from-gray-500 to-blue-500 flex ">
+            <nav className="bg-gradient-to-r from-gray-500 to-blue-500 flex">
                 <div className="flex justify-between items-center">
-                    <img src={Logo} className="mr-2" />
+                    <img src={Logo} className="mr-2" alt="Logo" />
                     <NavLink to="/homePage" className="text-white hover:text-gray-200 space-x-16">
                         Home
                     </NavLink>
@@ -142,7 +151,7 @@ const ExpImp = () => {
                             />
                         </div>
                         <div className="form-group flex-col ml-2">
-                            <label htmlFor="quanlity">Quanlity:</label>
+                            <label htmlFor="quanlity">Quantity:</label>
                             <input
                                 type="text"
                                 style={{ width: '100%' }}
