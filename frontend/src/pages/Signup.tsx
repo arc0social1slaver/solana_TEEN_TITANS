@@ -39,7 +39,7 @@ const SignUp = () => {
     <SignUpBg imgSrc={BgWelcome}>
       <div className="flex flex-col items-center">
         <form id="signUpForm" className="flex flex-col gap-2">
-          <label htmlFor="email" className="text-sm mt-6 text-gray-">Email:</label>
+          <label htmlFor="email" className="text-m mt-6 text-white">Email:</label>
           <input
             id="email"
             className="p-4 border w-full border-gray-500 rounded-xl"
@@ -50,7 +50,7 @@ const SignUp = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <label htmlFor="password" className="text-sm mt-4 text-gray-700">Password:</label>
+          <label htmlFor="password" className="text-m mt-4 text-white">Password:</label>
           <input
             id="password"
             className="p-4 rounded-xl border-gray-500 border"
@@ -61,7 +61,7 @@ const SignUp = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <label htmlFor="confirmPassword" className="text-sm mt-4 text-gray-700">Confirm password:</label>
+          <label htmlFor="confirmPassword" className="text-m mt-4 text-white">Confirm password:</label>
           <input
             id="confirmPassword"
             className="p-4 rounded-xl border-gray-500 border"

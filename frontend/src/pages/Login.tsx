@@ -27,10 +27,10 @@ const Login = () => {
 
   return (
     <LogInOut imgSrc={Accout3}>
-      <label htmlFor="email" className="text-sm mt-6 text-white">User name:</label>
+      <label htmlFor="email" className="text-m mt-6 text-white">User name:</label>
       <input id="email" className="p-4 border w-full border-gray-500 rounded-xl" onKeyPress={checkEnter}
         type="text" name="email" placeholder="Email" />
-      <label htmlFor="password" className="text-sm mt-4 text-white">Password:</label>
+      <label htmlFor="password" className="text-m mt-4 text-white">Password:</label>
       <input id="password" className="p-4 rounded-xl border-gray-500 border" onKeyPress={checkEnter}
         type="password" name="password" placeholder="Password" />
       <button type="button" onClick={login} className="mt-4 bg-gray-800 rounded-xl text-white py-4 w-fit">Log in</button>
