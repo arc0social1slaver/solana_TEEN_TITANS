@@ -1,0 +1,7 @@
+D:\HCMUS\HackathonIU2024\solana_TEEN_TITANS\backend\target\debug\deps\libderivation_path-e00d2cf07c0208a0.rmeta: C:\Users\ADMIN\.cargo\registry\src\index.crates.io-6f17d22bba15001f\derivation-path-0.2.0\src\lib.rs
+
+D:\HCMUS\HackathonIU2024\solana_TEEN_TITANS\backend\target\debug\deps\libderivation_path-e00d2cf07c0208a0.rlib: C:\Users\ADMIN\.cargo\registry\src\index.crates.io-6f17d22bba15001f\derivation-path-0.2.0\src\lib.rs
+
+D:\HCMUS\HackathonIU2024\solana_TEEN_TITANS\backend\target\debug\deps\derivation_path-e00d2cf07c0208a0.d: C:\Users\ADMIN\.cargo\registry\src\index.crates.io-6f17d22bba15001f\derivation-path-0.2.0\src\lib.rs
+
+C:\Users\ADMIN\.cargo\registry\src\index.crates.io-6f17d22bba15001f\derivation-path-0.2.0\src\lib.rs:
