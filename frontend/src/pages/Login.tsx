@@ -1,10 +1,17 @@
 import LogInOut from "../layout/LogInOut"
 import Accout3 from "../assets/images/account3.png";
 
+function resetForm() {
+  const form = document.getElementById('myForm') as HTMLFormElement | null;
+
+  if (form) {
+      form.reset();
+  }
+}
 const Login = () => {
     function login() {
-        let email : string = (document.getElementById("email") as HTMLInputElement).value;
-        var password : string = (document.getElementById("password") as HTMLInputElement).value;
+      const email : string = (document.getElementById("email") as HTMLInputElement).value;
+      const password : string = (document.getElementById("password") as HTMLInputElement).value;
     
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     

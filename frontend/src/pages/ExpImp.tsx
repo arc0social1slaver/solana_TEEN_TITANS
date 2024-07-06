@@ -12,7 +12,7 @@ const ExpImp = () => {
             <div className="flex justify-between items-center">
                 <img src={Logo} className="mr-2" />
                 <NavLink to={"/homePage"} className="text-white hover:text-gray-200 space-x-16">Home</NavLink>
-                <NavLink to={"#"} className="text-white hover:text-gray-200 space-x-32">Services</NavLink>
+                <NavLink to={"../pages/ExpImp.tsx"} className="text-white hover:text-gray-200 space-x-32">Services</NavLink>
                 <NavLink to={"#"} className="text-white hover:text-gray-200 space-x-32 p-4">About us</NavLink>
             </div>
         </nav>
