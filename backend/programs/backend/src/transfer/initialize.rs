@@ -11,12 +11,8 @@ use anchor_spl::{
     token_interface::{spl_token_2022::instruction::AuthorityType, Token2022},
 };
 use solana_program::program::{invoke, invoke_signed};
-use spl_token_2022::{
-    extension::ExtensionType,
-    state::Mint,
-};
-
-pub fn min_nft(ctx: Context<MyMintNfts>) -> Result<()> {
+use spl_token_2022::{extension::ExtensionType, state::Mint};
+pub fn burn_nft(ctx: Context<MyMintNfts>, amount: u64, name: String, symbol: String, uri: String) -> Result<()> {
     let space =
         match ExtensionType::try_calculate_account_len::<Mint>(&[ExtensionType::MetadataPointer]) {
             Ok(space) => space,
@@ -87,9 +83,9 @@ pub fn min_nft(ctx: Context<MyMintNfts>) -> Result<()> {
         ctx.accounts.nft_auth.to_account_info().key,
         ctx.accounts.mint.key,
         ctx.accounts.nft_auth.to_account_info().key,
-        "Hehe".to_string(),
-        "HH".to_string(),
-        "https://arweave.net/MHK3Iopy0GgvDoM7LkkiAdg7pQqExuuWvedApCnzfj0".to_string(),
+        name.to_string(),
+        symbol.to_string(),
+        uri.to_string(),
     );
     invoke_signed(
         init_token_meta_data_ix,
@@ -124,6 +120,175 @@ pub fn min_nft(ctx: Context<MyMintNfts>) -> Result<()> {
             token_program: ctx.accounts.token_program.to_account_info(),
         },
     ))?;
+    // token_2022::transfer_checked(
+    //     CpiContext::new_with_signer(
+    //         ctx.accounts.token_program.to_account_info(),
+    //         token_2022::TransferChecked {
+    //             from: ctx.accounts.mint.to_account_info(),
+    //             mint: ctx.accounts.mint.to_account_info(),
+    //             to: ctx.accounts.token_account.to_account_info(),
+    //             authority: ctx.accounts.nft_auth.to_account_info(),
+    //         },
+    //         signer,
+    //     ),
+    //     1,
+    //     0,
+    // )?;
+    // transfer
+    // token_2022::transfer_checked(ctx, amount, decimals){
+
+    token_2022::burn(
+        CpiContext::new_with_signer(
+            ctx.accounts.token_program.to_account_info(),
+            token_2022::Burn {
+                mint: ctx.accounts.mint.to_account_info(),
+                from: ctx.accounts.token_account.to_account_info(),
+                authority: ctx.accounts.nft_auth.to_account_info(),
+            },
+            signer,
+        ),
+        amount,
+    )?;
+    token_2022::set_authority(
+        CpiContext::new_with_signer(
+            ctx.accounts.token_program.to_account_info(),
+            token_2022::SetAuthority {
+                current_authority: ctx.accounts.nft_auth.to_account_info(),
+                account_or_mint: ctx.accounts.mint.to_account_info(),
+            },
+            signer,
+        ),
+        AuthorityType::MintTokens,
+        None,
+    )?;
+    Ok(())
+}
+
+pub fn min_nft(ctx: Context<MyMintNfts>, amount: u64, name: String, symbol: String, uri: String) -> Result<()> {
+    let space =
+        match ExtensionType::try_calculate_account_len::<Mint>(&[ExtensionType::MetadataPointer]) {
+            Ok(space) => space,
+            Err(_) => {
+                return err!(ProgramCode::InvalidMintAccountSpace);
+            }
+        };
+    let meta_data_space = 250;
+    let lamports_required = Rent::get()?.minimum_balance(space + meta_data_space);
+    system_program::create_account(
+        CpiContext::new(
+            ctx.accounts.token_program.to_account_info(),
+            system_program::CreateAccount {
+                from: ctx.accounts.signer.to_account_info(),
+                to: ctx.accounts.mint.to_account_info(),
+            },
+        ),
+        lamports_required,
+        space as u64,
+        &ctx.accounts.token_program.key(),
+    )?;
+    system_program::assign(
+        CpiContext::new(
+            ctx.accounts.token_program.to_account_info(),
+            system_program::Assign {
+                account_to_assign: ctx.accounts.mint.to_account_info(),
+            },
+        ),
+        &token_2022::ID,
+    )?;
+    let init_meta_data_pointer_ix =
+        match spl_token_2022::extension::metadata_pointer::instruction::initialize(
+            &Token2022::id(),
+            &ctx.accounts.mint.key(),
+            Some(ctx.accounts.nft_auth.key()),
+            Some(ctx.accounts.mint.key()),
+        ) {
+            Ok(ix) => ix,
+            Err(_) => {
+                return err!(ProgramCode::CantInitializeMetadataPointer);
+            }
+        };
+    invoke(
+        &init_meta_data_pointer_ix,
+        &[
+            ctx.accounts.mint.to_account_info(),
+            ctx.accounts.nft_auth.to_account_info(),
+        ],
+    )?;
+    let mint_cpi_ix = CpiContext::new(
+        ctx.accounts.token_program.to_account_info(),
+        token_2022::InitializeMint2 {
+            mint: ctx.accounts.mint.to_account_info(),
+        },
+    );
+    token_2022::initialize_mint2(mint_cpi_ix, 0, &ctx.accounts.nft_auth.key(), None).unwrap();
+
+    let seeds = b"nft_auth";
+    let bump = ctx.bumps.nft_auth;
+    let signer: &[&[&[u8]]] = &[&[seeds, &[bump]]];
+    msg!(
+        "Init metadata: {}",
+        ctx.accounts.nft_auth.to_account_info().key
+    );
+    let init_token_meta_data_ix = &spl_token_metadata_interface::instruction::initialize(
+        &spl_token_2022::id(),
+        ctx.accounts.mint.key,
+        ctx.accounts.nft_auth.to_account_info().key,
+        ctx.accounts.mint.key,
+        ctx.accounts.nft_auth.to_account_info().key,
+        name.to_string(),
+        symbol.to_string(),
+        uri.to_string(),
+    );
+    invoke_signed(
+        init_token_meta_data_ix,
+        &[
+            ctx.accounts.mint.to_account_info().clone(),
+            ctx.accounts.nft_auth.to_account_info().clone(),
+        ],
+        signer,
+    )?;
+    invoke_signed(
+        &spl_token_metadata_interface::instruction::update_field(
+            &spl_token_2022::id(),
+            ctx.accounts.mint.key,
+            ctx.accounts.nft_auth.to_account_info().key,
+            spl_token_metadata_interface::state::Field::Key("level".to_string()),
+            "1".to_string(),
+        ),
+        &[
+            ctx.accounts.mint.to_account_info().clone(),
+            ctx.accounts.nft_auth.to_account_info().clone(),
+        ],
+        signer,
+    )?;
+    associated_token::create(CpiContext::new(
+        ctx.accounts.associated_token_program.to_account_info(),
+        associated_token::Create {
+            payer: ctx.accounts.signer.to_account_info(),
+            associated_token: ctx.accounts.token_account.to_account_info(),
+            authority: ctx.accounts.signer.to_account_info(),
+            mint: ctx.accounts.mint.to_account_info(),
+            system_program: ctx.accounts.system_program.to_account_info(),
+            token_program: ctx.accounts.token_program.to_account_info(),
+        },
+    ))?;
+    // token_2022::transfer_checked(
+    //     CpiContext::new_with_signer(
+    //         ctx.accounts.token_program.to_account_info(),
+    //         token_2022::TransferChecked {
+    //             from: ctx.accounts.mint.to_account_info(),
+    //             mint: ctx.accounts.mint.to_account_info(),
+    //             to: ctx.accounts.token_account.to_account_info(),
+    //             authority: ctx.accounts.nft_auth.to_account_info(),
+    //         },
+    //         signer,
+    //     ),
+    //     1,
+    //     0,
+    // )?;
+    // transfer
+    // token_2022::transfer_checked(ctx, amount, decimals){
+
     token_2022::mint_to(
         CpiContext::new_with_signer(
             ctx.accounts.token_program.to_account_info(),
@@ -134,7 +299,7 @@ pub fn min_nft(ctx: Context<MyMintNfts>) -> Result<()> {
             },
             signer,
         ),
-        1,
+        amount,
     )?;
     token_2022::set_authority(
         CpiContext::new_with_signer(
