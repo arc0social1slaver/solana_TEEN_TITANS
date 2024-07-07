@@ -11,6 +11,39 @@ const __dirname = path.resolve();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Serve the form page
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Endpoint to handle form submission
+app.post('/submit', (req, res) => {
+    const formData = req.body;
+
+    // Read existing data
+    readData((readErr, existingData) => {
+        if (readErr) {
+            return res.status(500).json({ error: 'Error reading data file' });
+        }
+
+        // Add new form data
+        existingData.push(formData);
+
+        // Write updated data to file
+        writeData(existingData, (writeErr) => {
+            if (writeErr) {
+                return res.status(500).json({ error: 'Error writing data file' });
+            }
+            res.status(200).json({ message: 'Form data saved successfully' });
+        });
+    });
+});
+
+// Serve the homepage
+app.get('/homePage', (req, res) => {
+    res.send('<h1>Welcome to the Home Page</h1><a href="/">Go to Form</a>');
+});
+
 // Helper function to read data from the file
 const readData = (callback) => {
     fs.readFile(path.join(__dirname, 'data.json'), 'utf8', (err, data) => {
@@ -38,30 +71,6 @@ const writeData = (data, callback) => {
         callback(null);
     });
 };
-
-// Endpoint to handle form submission
-app.post('/submit', (req, res) => {
-    const formData = req.body;
-
-    // Read existing data
-    readData((readErr, existingData) => {
-        if (readErr) {
-            return res.status(500).json({ error: 'Error reading data file' });
-        }
-
-        // Add new form data
-        existingData.push(formData);
-
-        // Write updated data to file
-        writeData(existingData, (writeErr) => {
-            if (writeErr) {
-                return res.status(500).json({ error: 'Error writing data file' });
-            }
-            res.status(200).json({ message: 'Form data saved successfully' });
-            
-        });
-    });
-});
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
