@@ -1,30 +1,8 @@
-import React, { useState } from 'react';
 import { NavLink } from "react-router-dom";
 import Logo from "../assets/images/logo.png";
 import Background from "../assets/images/4.jpg";
 
-const ExpImp: React.FC = () => {
-    const [successMessage, setSuccessMessage] = useState<string>('');
-
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        const form = event.currentTarget;
-        const formData = new FormData(form);
-
-        const response = await fetch('http://localhost:5000/submit', {
-            method: 'POST',
-            body: formData,
-        });
-
-        if (response.ok) {
-            setSuccessMessage('Form submitted successfully!');
-            form.reset(); // Reset form fields
-        } else {
-            setSuccessMessage('Failed to submit the form. Please try again.');
-        }
-    };
-
+const ExpImp = () => {
     return (
         <div
             style={{
@@ -35,7 +13,7 @@ const ExpImp: React.FC = () => {
         >
             <nav className="bg-gradient-to-r from-gray-500 to-blue-500 flex ">
                 <div className="flex justify-between items-center">
-                    <img src={Logo} className="mr-2" alt="Logo" />
+                    <img src={Logo} className="mr-2" />
                     <NavLink to={"/homePage"} className="text-white hover:text-gray-200 space-x-16">Home</NavLink>
                     <NavLink to={"#"} className="text-white hover:text-gray-200 space-x-32">Services</NavLink>
                     <NavLink to={"#"} className="text-white hover:text-gray-200 space-x-32 p-4">About us</NavLink>
@@ -44,8 +22,7 @@ const ExpImp: React.FC = () => {
 
             <div className="containers">
                 <h2><b>Sea Exportation Application Form</b></h2>
-                {successMessage && <div className="alert">{successMessage}</div>}
-                <form onSubmit={handleSubmit} className="items-center">
+                <form action="http://localhost:5000/submit" method="post" className="items-center">
                     <div className="form-group" style={{ display: "flex", justifyContent: 'space-between' }}>
                         <div>
                             <label htmlFor="fullName">Exporter's name:</label>
@@ -63,7 +40,7 @@ const ExpImp: React.FC = () => {
                         <label htmlFor="goodsName">Name of the goods:</label>
                         <input type="text" id="goodsName" name="goodsName" required />
                     </div>
-                    <div className="flex flex-row items-center justify-center">
+                    <div className="flex flex-row items-center justifly-center">
                         <div className="form-group flex-col mr-10">
                             <label htmlFor="timeReceive">Time to receive:</label>
                             <input type="date" style={{ width: "160%" }} id="timeReceive" name="timeReceive" required />
@@ -73,8 +50,8 @@ const ExpImp: React.FC = () => {
                             <input type="text" style={{ width: "70%" }} id="quantity" name="quantity" required />
                         </div>
                         <div className="form-group flex-col ml-">
-                            <label htmlFor="quality">Quality:</label>
-                            <input type="text" style={{ width: "100%" }} id="quality" name="quality" required />
+                            <label htmlFor="quanlity" >Quanlity:</label>
+                            <input type="text" style={{ width: "100%" }} id="quanlity" name="quanlity" required />
                         </div>
                     </div>
 
@@ -91,14 +68,14 @@ const ExpImp: React.FC = () => {
                         <label htmlFor="origin">Origin:</label>
                         <input type="text" id="origin" name="origin" required />
                     </div>
-                    <div className="flex flex-row items-center justify-center">
+                    <div className="flex flex-row items-center justifly-center">
                         <div className="form-group mr-20">
                             <label htmlFor="ISOcode">ISO code:</label>
                             <input type="text" style={{ width: "200%" }} id="ISOcode" name="ISOcode" required />
                         </div>
                         <div className="form-group flex flex-row justify-center p-4 ">
                             <label htmlFor="formCO" className="mr-2">Form CO:</label>
-                            <input type="checkbox" id="formCO" name="formCO" />
+                            <input type="checkbox" id="formCO" name="formCO"/>
                         </div>
                     </div>
                     <div className="form-group">
@@ -106,10 +83,9 @@ const ExpImp: React.FC = () => {
                         <textarea id="comments" name="comments" rows={4}></textarea>
                     </div>
                     <button type="submit">Submit Application</button>
-                </form>
-            </div>
+                </form >
+            </div >
         </div>
     );
 };
-
 export default ExpImp;

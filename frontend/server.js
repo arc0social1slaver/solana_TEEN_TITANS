@@ -58,6 +58,7 @@ app.post('/submit', (req, res) => {
                 return res.status(500).json({ error: 'Error writing data file' });
             }
             res.status(200).json({ message: 'Form data saved successfully' });
+            
         });
     });
 });
