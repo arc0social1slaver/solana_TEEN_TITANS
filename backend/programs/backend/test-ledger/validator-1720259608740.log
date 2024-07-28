@@ -1,0 +1,21 @@
+[2024-07-06T09:53:28.742399000Z INFO  solana_test_validator] solana-validator 1.18.17 (src:b685182a; feat:4215500110, client:SolanaLabs)
+[2024-07-06T09:53:28.742464900Z INFO  solana_test_validator] Starting validator with: ArgsOs {
+        inner: [
+            "C:\\Users\\ADMIN\\.local\\share\\solana\\install\\active_release\\bin\\solana-test-validator.exe",
+        ],
+    }
+[2024-07-06T09:53:28.742495700Z WARN  solana_perf] CUDA is disabled
+[2024-07-06T09:53:28.742506400Z INFO  solana_perf] AVX detected
+[2024-07-06T09:53:28.742514300Z INFO  solana_perf] AVX2 detected
+[2024-07-06T09:53:28.747256100Z INFO  solana_faucet::faucet] Faucet started. Listening on: 0.0.0.0:9900
+[2024-07-06T09:53:28.748367200Z INFO  solana_validator::admin_rpc_service] started admin rpc service!
+[2024-07-06T09:53:28.773087500Z INFO  solana_faucet::faucet] Faucet account address: 2BgLqPTcRGQMCpNT7nQMAQfGi7GrFMBwQVt7GEMnA365
+[2024-07-06T09:53:28.750839400Z INFO  solana_test_validator] Feature for 41tVp5qR1XwWRt5WifvtSQyuxtqQWJgEK8w91AtBqSwP deactivated
+[2024-07-06T09:53:28.785725200Z INFO  solana_ledger::blockstore] Opening blockstore at "test-ledger\\rocksdb"
+[2024-07-06T09:53:28.786646000Z WARN  solana_ledger::blockstore_db] Unable to detect Rocks columns: Error { message: "IO error: No such file or directory: Failed to open NewSequentialFiletest-ledger\\rocksdb/CURRENT: The system cannot find the file specified.\r\n" }
+[2024-07-06T09:53:29.564017100Z INFO  solana_ledger::blockstore] Opening blockstore done; blockstore open took 778ms
+[2024-07-06T09:53:29.572605400Z INFO  solana_metrics::metrics] metrics disabled: environment variable not found
+[2024-07-06T09:53:29.572704100Z INFO  solana_metrics::metrics] datapoint: shred_insert_is_full total_time_ms=1i slot=0i last_index=31i num_repaired=0i num_recovered=0i
+[2024-07-06T09:53:29.602622200Z ERROR solana_ledger::blockstore] tar stdout: 
+[2024-07-06T09:53:29.602643000Z ERROR solana_ledger::blockstore] tar stderr: tar: Can't launch external program: bzip2
+    
